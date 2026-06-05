@@ -11,6 +11,9 @@ use App\Http\Controllers\Admin\ConcursoController;
 use App\Http\Controllers\Admin\ParticipanteController;
 use App\Http\Controllers\Jurado\EvaluacionController;
 use App\Http\Controllers\Admin\ResultadoController;
+use App\Http\Controllers\Admin\BitacoraController;
+
+
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -51,6 +54,8 @@ Route::middleware(['auth', 'role:ADMINISTRADOR'])->group(function () {
     Route::get('concursos/{concurso}/resultados/exportar-desglose', [ResultadoController::class, 'exportarDesglose'])
     ->name('concursos.resultados.exportarDesglose');
 });
+    Route::get('bitacoras', [BitacoraController::class, 'index'])
+    ->name('bitacoras.index');
 
     Route::middleware(['auth', 'role:JURADO'])->group(function () {
     Route::get('/jurado', function () {

@@ -15,6 +15,17 @@ class DashboardController extends Controller
     public function index()
     {
         if (auth()->user()->role === 'ADMINISTRADOR') {
+
+            $participantesPorConcurso = Concurso::withCount('participantes')
+                ->orderByDesc('participantes_count')
+                ->limit(5)
+                ->get();
+
+            $evaluacionesPorConcurso = Concurso::withCount('evaluaciones')
+                ->orderByDesc('evaluaciones_count')
+                ->limit(5)
+                ->get();
+
             return view('dashboard.admin', [
                 'totalUsuarios' => User::count(),
                 'totalCategorias' => Categoria::count(),
@@ -22,20 +33,20 @@ class DashboardController extends Controller
                 'totalCriterios' => Criterio::count(),
                 'totalConcursos' => Concurso::count(),
                 'totalParticipantes' => Participante::count(),
+                'totalEvaluaciones' => Evaluacion::count(),
 
                 'concursosBorrador' => Concurso::where('estado', 'BORRADOR')->count(),
                 'concursosActivos' => Concurso::where('estado', 'ACTIVO')->count(),
                 'concursosCerrados' => Concurso::where('estado', 'CERRADO')->count(),
 
-                'participantesPorConcurso' => Concurso::withCount('participantes')
-                    ->orderByDesc('participantes_count')
-                    ->limit(5)
-                    ->get(),
+                'participantesPorConcurso' => $participantesPorConcurso,
+                'evaluacionesPorConcurso' => $evaluacionesPorConcurso,
 
-                'evaluacionesPorConcurso' => Concurso::withCount('evaluaciones')
-                    ->orderByDesc('evaluaciones_count')
-                    ->limit(5)
-                    ->get(),
+                'participantesLabels' => $participantesPorConcurso->pluck('nombre'),
+                'participantesData' => $participantesPorConcurso->pluck('participantes_count'),
+
+                'evaluacionesLabels' => $evaluacionesPorConcurso->pluck('nombre'),
+                'evaluacionesData' => $evaluacionesPorConcurso->pluck('evaluaciones_count'),
 
                 'ultimosConcursos' => Concurso::with('categoria')
                     ->latest()

@@ -44,6 +44,12 @@ class ParticipanteController extends Controller
             'descripcion' => ['nullable', 'string'],
         ]);
 
+        $concurso = Concurso::findOrFail($request->concurso_id);
+
+if ($concurso->estado === 'CERRADO') {
+    return back()->with('error', 'El concurso está cerrado.');
+}
+
         Participante::create($request->only([
             'concurso_id',
             'nombre',
@@ -83,6 +89,12 @@ class ParticipanteController extends Controller
             'descripcion' => ['nullable', 'string'],
         ]);
 
+        $concurso = Concurso::findOrFail($request->concurso_id);
+
+if ($concurso->estado === 'CERRADO') {
+    return back()->with('error', 'El concurso está cerrado.');
+}
+
         $participante->update($request->only([
             'concurso_id',
             'nombre',
@@ -100,6 +112,10 @@ class ParticipanteController extends Controller
     public function destroy(Participante $participante)
     {
         $concursoId = $participante->concurso_id;
+
+        if ($participante->concurso->estado === 'CERRADO') {
+    return back()->with('error', 'El concurso está cerrado.');
+}
 
         $participante->delete();
 

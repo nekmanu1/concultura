@@ -36,6 +36,10 @@
         <x-nav-link :href="route('concursos.index')" :active="request()->routeIs('concursos.*')">
             Concursos
         </x-nav-link>
+
+        <x-nav-link :href="route('bitacoras.index')" :active="request()->routeIs('bitacoras.*')">
+            Bitácora
+        </x-nav-link>
     @endif
 
     @if(auth()->user()->role === 'JURADO')
@@ -86,6 +90,10 @@
         <x-responsive-nav-link :href="route('concursos.index')" :active="request()->routeIs('concursos.*')">
             Concursos
         </x-responsive-nav-link>
+
+        <x-responsive-nav-link :href="route('bitacoras.index')" :active="request()->routeIs('bitacoras.*')">
+           Bitácora
+        </x-responsive-nav-link>
     @endif
 
     @if(auth()->user()->role === 'JURADO')
@@ -93,6 +101,7 @@
             Mis concursos
         </x-responsive-nav-link>
     @endif
+       
 
 </div>
 

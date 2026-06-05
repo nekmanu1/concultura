@@ -32,6 +32,8 @@
                 <strong>Estado:</strong> {{ $concurso->estado }}
             </p>
 
+            @if($concurso->estado !== 'CERRADO')
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-6">
                 <a href="{{ route('concursos.criterios', $concurso) }}"
                    class="bg-purple-600 text-white px-4 py-3 rounded text-center">
@@ -47,6 +49,15 @@
                    class="bg-blue-600 text-white px-4 py-3 rounded text-center">
                     Asignar jurados
                 </a>
+                @endif
+                @if($concurso->estado === 'CERRADO')
+
+<div class="bg-red-100 text-red-700 p-4 rounded mt-4">
+    Este concurso está cerrado.
+    Solo se permiten consultas y resultados.
+</div>
+
+@endif
 
                 <a href="{{ route('concursos.resultados', $concurso) }}"
                    class="bg-gray-700 text-white px-4 py-3 rounded text-center">

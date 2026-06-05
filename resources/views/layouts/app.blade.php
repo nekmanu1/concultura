@@ -25,6 +25,13 @@
                         {{ $header }}
                     </div>
                 </header>
+                @if(session('error'))
+    <div class="max-w-7xl mx-auto mt-4">
+        <div class="bg-red-100 text-red-700 p-3 rounded">
+            {{ session('error') }}
+        </div>
+    </div>
+@endif
             @endisset
 
             <!-- Page Content -->

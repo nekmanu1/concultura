@@ -12,6 +12,7 @@ use App\Models\ConcursoCriterio;
 use App\Models\User;
 use App\Models\ConcursoJurado;
 use App\Models\ConcursoJuradoAspecto;
+use App\Helpers\BitacoraHelper;
 
 class ConcursoController extends Controller {
 
@@ -47,10 +48,18 @@ class ConcursoController extends Controller {
 
     public function guardarCriterios(Request $request, Concurso $concurso)
     {
+        if ($concurso->estado === 'CERRADO') {
+    return back()->with('error', 'El concurso está cerrado.');
+}
     $request->validate([
         'aspectos' => ['nullable', 'array'],
         'aspectos.*' => ['nullable', 'exists:aspectos,id'],
     ]);
+    BitacoraHelper::registrar(
+    'ASIGNAR',
+    'Criterios',
+    'Se actualizaron criterios del concurso ' . $concurso->nombre
+);
 
     ConcursoCriterio::where('concurso_id', $concurso->id)->delete();
 
@@ -105,14 +114,21 @@ class ConcursoController extends Controller {
             'estado' => ['required', 'in:BORRADOR,ACTIVO,CERRADO'],
         ]);
 
-        Concurso::create($request->only([
-            'categoria_id',
-            'nombre',
-            'descripcion',
-            'fecha_inicio',
-            'fecha_fin',
-            'estado',
-        ]));
+        $concurso = Concurso::create($request->only([
+    'categoria_id',
+    'nombre',
+    'descripcion',
+    'fecha_inicio',
+    'fecha_fin',
+    'estado',
+]));
+        
+        BitacoraHelper::registrar(
+    'CREAR',
+    'Concursos',
+    'Se creó el concurso: ' . $concurso->nombre
+);
+
 
         return redirect()
             ->route('concursos.index')
@@ -156,6 +172,12 @@ class ConcursoController extends Controller {
             'estado',
         ]));
 
+        BitacoraHelper::registrar(
+    'EDITAR',
+    'Concursos',
+    'Se editó el concurso: ' . $concurso->nombre
+);
+
         return redirect()
             ->route('concursos.index')
             ->with('success', 'Concurso actualizado correctamente.');
@@ -166,6 +188,15 @@ class ConcursoController extends Controller {
         if ($concurso->estado === 'CERRADO') {
     return back()->with('error', 'No se puede eliminar un concurso cerrado.');
 }
+        $nombre = $concurso->nombre;
+
+$concurso->delete();
+
+BitacoraHelper::registrar(
+    'ELIMINAR',
+    'Concursos',
+    'Se eliminó el concurso: ' . $nombre
+);
         $concurso->delete();
 
         return redirect()
@@ -205,6 +236,10 @@ class ConcursoController extends Controller {
 
 public function guardarJurados(Request $request, Concurso $concurso)
 {
+
+     if ($concurso->estado === 'CERRADO') {
+    return back()->with('error', 'El concurso está cerrado.');
+}
     $request->validate([
         'jurados' => ['nullable', 'array'],
         'jurados.*' => ['exists:users,id'],
@@ -224,6 +259,11 @@ public function guardarJurados(Request $request, Concurso $concurso)
         if (!$jurado) {
             continue;
         }
+        BitacoraHelper::registrar(
+    'ASIGNAR',
+    'Jurados',
+    'Se actualizaron jurados del concurso ' . $concurso->nombre
+);
 
         ConcursoJurado::create([
             'concurso_id' => $concurso->id,
@@ -256,6 +296,12 @@ public function cerrar(Concurso $concurso)
     $concurso->update([
         'estado' => 'CERRADO'
     ]);
+
+    BitacoraHelper::registrar(
+        'CERRAR',
+        'Concursos',
+        'Se cerró el concurso: ' . $concurso->nombre
+    );
 
     return redirect()
         ->route('concursos.show', $concurso)
