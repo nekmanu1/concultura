@@ -94,12 +94,14 @@
             </div>
 
             <div class="flex gap-2 mt-6">
-                <button class="bg-blue-600 text-white px-4 py-2 rounded">
+                <button class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+    <x-heroicon-o-check class="w-5 h-5" />
                     Guardar asignación
                 </button>
 
                 <a href="{{ route('concursos.show', $concurso) }}"
-                   class="bg-gray-500 text-white px-4 py-2 rounded">
+                   class="inline-flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
+    <x-heroicon-o-arrow-left class="w-5 h-5" />
                     Volver
                 </a>
             </div>

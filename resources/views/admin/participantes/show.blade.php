@@ -22,7 +22,8 @@
                 </a>
 
                 <a href="{{ route('participantes.index', ['concurso_id' => $participante->concurso_id]) }}"
-                   class="bg-gray-500 text-white px-4 py-2 rounded">
+                   class="inline-flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
+    <x-heroicon-o-arrow-left class="w-5 h-5" />
                     Volver
                 </a>
             </div>

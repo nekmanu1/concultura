@@ -15,9 +15,10 @@
 
         <div class="mb-4">
             <a href="{{ route('concursos.create') }}"
-               class="bg-blue-600 text-white px-4 py-2 rounded">
-                Crear concurso
-            </a>
+   class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+    <x-heroicon-o-plus class="w-5 h-5" />
+    Crear concurso
+</a>
         </div>
 
         <div class="bg-white rounded shadow overflow-x-auto">
@@ -41,24 +42,23 @@
                             <td class="p-3 border">{{ $concurso->fecha_fin ?? 'No definida' }}</td>
                             <td class="p-3 border">{{ $concurso->estado }}</td>
                             <td class="p-3 border">
-                                <a href="{{ route('concursos.show', $concurso) }}" class="text-blue-600">
-                                    Ver
-                                </a>
+                                <a href="{{ route('concursos.show', $concurso) }}"
+   class="inline-flex items-center gap-1 text-blue-600">
+    <x-heroicon-o-eye class="w-4 h-4" />
+    Ver
+</a>
 
-                                <a href="{{ route('concursos.edit', $concurso) }}" class="text-yellow-600 ml-3">
-                                    Editar
-                                </a>
+<a href="{{ route('concursos.edit', $concurso) }}"
+   class="inline-flex items-center gap-1 text-yellow-600 ml-3">
+    <x-heroicon-o-pencil-square class="w-4 h-4" />
+    Editar
+</a>
 
-                                <form action="{{ route('concursos.destroy', $concurso) }}"
-                                      method="POST"
-                                      class="inline ml-3"
-                                      onsubmit="return confirm('¿Seguro que deseas eliminar este concurso?')">
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button type="submit" class="text-red-600">
-                                        Eliminar
-                                    </button>
+<button type="submit"
+        class="inline-flex items-center gap-1 text-red-600">
+    <x-heroicon-o-trash class="w-4 h-4" />
+    Eliminar
+</button>
                                 </form>
                             </td>
                         </tr>
