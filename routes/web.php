@@ -48,11 +48,12 @@ Route::middleware(['auth', 'role:ADMINISTRADOR'])->group(function () {
     Route::post('concursos/{concurso}/jurados', [ConcursoController::class, 'guardarJurados'])
     ->name('concursos.jurados.guardar');
 
-    Route::get('concursos/{concurso}/resultados/exportar-resumen', [ResultadoController::class, 'exportarResumen'])
-    ->name('concursos.resultados.exportarResumen');
+    Route::get('/admin/resultados/{concurso}/resumen-pdf', [ResultadoController::class, 'exportarResumenPDF'])
+    ->name('concursos.resultados.exportarResumenPDF');
 
-    Route::get('concursos/{concurso}/resultados/exportar-desglose', [ResultadoController::class, 'exportarDesglose'])
-    ->name('concursos.resultados.exportarDesglose');
+    Route::get('/admin/resultados/{concurso}/desglose-excel', [ResultadoController::class, 'exportarDesgloseExcel'])
+    ->name('concursos.resultados.exportarDesgloseExcel');
+
 });
     Route::get('bitacoras', [BitacoraController::class, 'index'])
     ->name('bitacoras.index');

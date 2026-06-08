@@ -17,12 +17,12 @@
             </p>
 
             <div class="flex gap-2 mt-4">
-                <a href="{{ route('concursos.resultados.exportarResumen', $concurso) }}"
+                <a href="{{ route('concursos.resultados.exportarResumenPDF', $concurso) }}"
                    class="bg-green-600 text-white px-4 py-2 rounded">
                     Exportar resumen
                 </a>
 
-                <a href="{{ route('concursos.resultados.exportarDesglose', $concurso) }}"
+                <a href="{{ route('concursos.resultados.exportarDesgloseExcel', $concurso) }}"
                    class="bg-blue-600 text-white px-4 py-2 rounded">
                     Exportar desglose
                 </a>
