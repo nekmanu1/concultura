@@ -15,7 +15,8 @@
 
         <div class="mb-4">
             <a href="{{ route('criterios.create') }}"
-               class="bg-blue-600 text-white px-4 py-2 rounded">
+               class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+    <x-heroicon-o-plus class="w-5 h-5" />
                 Crear criterio
             </a>
         </div>
@@ -40,12 +41,14 @@
                             <td class="p-3 border">{{ $criterio->estado ? 'Activo' : 'Inactivo' }}</td>
                             <td class="p-3 border">
                                 <a href="{{ route('criterios.show', $criterio) }}"
-                                   class="text-blue-600">
+                                     class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800">
+    <x-heroicon-o-eye class="w-4 h-4" />
                                     Ver
                                 </a>
 
                                 <a href="{{ route('criterios.edit', $criterio) }}"
-                                   class="text-yellow-600 ml-3">
+                                   class="inline-flex items-center gap-1 text-yellow-600 hover:text-yellow-800 ml-3">
+    <x-heroicon-o-pencil-square class="w-4 h-4" />
                                     Editar
                                 </a>
 
@@ -56,7 +59,8 @@
                                     @csrf
                                     @method('DELETE')
 
-                                    <button type="submit" class="text-red-600">
+                                    <button type="submit"   class="inline-flex items-center gap-1 text-red-600 hover:text-red-800">
+    <x-heroicon-o-trash class="w-4 h-4" />
                                         Eliminar
                                     </button>
                                 </form>
