@@ -1,54 +1,121 @@
 <x-guest-layout>
-    <div class="flex min-h-screen items-center justify-center w-full bg-white">
-        <div class="w-full max-w-md bg-white border border-gray-300 shadow-lg p-6 rounded-lg">
-            <h2 class="text-center text-xl font-bold text-gray-800 mb-6">
-                Concursos Culturales
-            </h2>
+
+    <div class="flex items-center justify-center w-full">
+
+        <div class="w-full max-w-xl bg-white rounded-3xl shadow-2xl border border-gray-100 p-10">
+
+            {{-- LOGO --}}
+            <div class="flex flex-col items-center mb-6">
+
+                <img src="{{ asset('images/logo.png') }}"
+     alt="Logo ConCultura"
+     class="w-56 h-auto mb-5">
+
+                <h1 class="text-3xl font-bold text-gray-800">
+                    Sistema de Votación
+                </h1>
+
+               <p class="text-yellow-700 font-semibold text-center">
+    Ministerio de Cultura
+</p>
+
+<p class="text-gray-500 text-sm text-center mt-2">
+    Plataforma de evaluación, votación y resultados
+</p>
+            </div>
 
             <x-auth-session-status class="mb-4" :status="session('status')" />
 
             <form method="POST" action="{{ route('login') }}">
                 @csrf
 
-                <div class="mb-4">
-                    <x-input-label for="email" :value="__('Correo electrónico')" class="text-gray-700 font-semibold" />
-                    <x-text-input id="email" class="block mt-1 w-full border-gray-400 rounded-md shadow-sm focus:border-yellow-600 focus:ring focus:ring-yellow-200" 
-                        type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+                {{-- CORREO --}}
+                <div class="mb-5">
+
+                    <x-input-label
+                        for="email"
+                        :value="__('Correo electrónico')"
+                        class="text-gray-700 font-semibold"
+                    />
+
+                    <x-text-input
+                        id="email"
+                        class="block mt-2 w-full rounded-lg border-gray-300 shadow-sm
+       focus:border-yellow-600 focus:ring-yellow-500 py-3"
+                        type="email"
+                        name="email"
+                        :value="old('email')"
+                        required
+                        autofocus
+                        autocomplete="username"
+                        placeholder="Ingrese su correo"
+                    />
+
                     <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-600" />
+
                 </div>
 
-                <div class="mb-4">
-                    <x-input-label for="password" :value="__('Contraseña')" class="text-gray-700 font-semibold" />
-                    <x-text-input id="password" class="block mt-1 w-full border-gray-400 rounded-md shadow-sm focus:border-yellow-600 focus:ring focus:ring-yellow-200" 
-                        type="password" name="password" required autocomplete="current-password" />
+                {{-- CONTRASEÑA --}}
+                <div class="mb-6">
+
+                    <x-input-label
+                        for="password"
+                        :value="__('Contraseña')"
+                        class="text-gray-700 font-semibold"
+                    />
+
+                    <x-text-input
+                        id="password"
+                        class="block mt-2 w-full rounded-lg border-gray-300 shadow-sm
+                               focus:border-yellow-600 focus:ring-yellow-500"
+                        type="password"
+                        name="password"
+                        required
+                        autocomplete="current-password"
+                        placeholder="Ingrese su contraseña"
+                    />
+
                     <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-600" />
+
                 </div>
 
-                <div class="flex items-center mb-4">
-                    <input id="remember_me" type="checkbox" 
-                        class="border-gray-400 text-yellow-600 focus:ring-yellow-500" 
-                        name="remember">
-                    <label for="remember_me" class="ml-2 text-sm text-gray-700">
-                        {{ __('Recordarme') }}
-                    </label>
+                {{-- BOTÓN --}}
+                <div class="mt-8">
+
+                    <button type="submit"
+    class="w-full flex items-center justify-center gap-2
+           bg-yellow-700 hover:bg-yellow-800
+           text-white font-bold text-lg
+           py-4 px-4 rounded-xl
+           shadow-lg transition duration-200">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="w-5 h-5"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor">
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M15 12H3m0 0l4-4m-4 4l4 4m6-10h5a2 2 0 012 2v8a2 2 0 01-2 2h-5" />
+                        </svg>
+
+                        Ingresar
+                    </button>
+
                 </div>
 
-                <div class="flex items-center justify-between">
-                    @if (Route::has('password.request'))
-                        <a class="text-sm text-yellow-700 hover:text-yellow-900 font-medium" href="{{ route('password.request') }}">
-                            {{ __('¿Olvidaste tu contraseña?') }}
-                        </a>
-                    @endif
-
-                    <x-primary-button class="ml-3 bg-yellow-700 hover:bg-yellow-800 text-white px-6 py-2 rounded-md shadow">
-                        {{ __('Ingresar') }}
-                    </x-primary-button>
-                </div>
             </form>
 
-            <div class="flex justify-center mt-6">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo ConCultura" class="w-29 h-auto opacity-80">
+            {{-- PIE --}}
+            <div class="mt-6 text-center">
+                <p class="text-xs text-gray-400">
+                    © {{ date('Y') }} ConCultura
+                </p>
             </div>
+
         </div>
+
     </div>
+
 </x-guest-layout>

@@ -1,71 +1,215 @@
 <x-app-layout>
+
     <x-slot name="header">
-        <h2 class="text-xl font-semibold text-gray-800">
-            Crear usuario
-        </h2>
+        <div class="flex items-center gap-3">
+            <x-heroicon-o-user-plus class="w-7 h-7 text-blue-600" />
+
+            <div>
+                <h2 class="text-xl font-semibold text-gray-800">
+                    Crear usuario
+                </h2>
+
+                <p class="text-sm text-gray-500">
+                    Registrar administradores y jurados del sistema
+                </p>
+            </div>
+        </div>
     </x-slot>
 
-    <div class="max-w-3xl mx-auto p-6">
-        <div class="bg-white p-6 rounded shadow">
+    <div class="max-w-5xl mx-auto p-6">
 
-            <form action="{{ route('usuarios.store') }}" method="POST">
-                @csrf
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
 
-                <div class="mb-4">
-                    <label class="block mb-1">Nombre</label>
-                    <input type="text" name="name" value="{{ old('name') }}"
-                           class="w-full border-gray-300 rounded" required>
-                    @error('name') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+            <div class="bg-gradient-to-r from-blue-700 to-blue-500 p-6 text-white">
+
+                <div class="flex items-center gap-4">
+
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
+                        <x-heroicon-o-user-plus class="w-8 h-8 text-white" />
+                    </div>
+
+                    <div>
+                        <h1 class="text-2xl font-bold">
+                            Nuevo Usuario
+                        </h1>
+
+                        <p class="text-blue-100">
+                            Crear cuentas para administradores y jurados
+                        </p>
+                    </div>
+
                 </div>
 
-                <div class="mb-4">
-                    <label class="block mb-1">Correo</label>
-                    <input type="email" name="email" value="{{ old('email') }}"
-                           class="w-full border-gray-300 rounded" required>
-                    @error('email') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
-                </div>
+            </div>
 
-                <div class="mb-4">
-                    <label class="block mb-1">Rol</label>
-                    <select name="role" class="w-full border-gray-300 rounded" required>
-                        <option value="">Seleccione</option>
-                        <option value="ADMINISTRADOR" {{ old('role') == 'ADMINISTRADOR' ? 'selected' : '' }}>
-                            Administrador
-                        </option>
-                        <option value="JURADO" {{ old('role') == 'JURADO' ? 'selected' : '' }}>
-                            Jurado
-                        </option>
-                    </select>
-                    @error('role') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
-                </div>
+            <div class="p-6">
 
-                <div class="mb-4">
-                    <label class="block mb-1">Contraseña</label>
-                    <input type="password" name="password"
-                           class="w-full border-gray-300 rounded" required>
-                    @error('password') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
-                </div>
+                <form action="{{ route('usuarios.store') }}" method="POST">
+                    @csrf
 
-                <div class="mb-4">
-                    <label class="block mb-1">Confirmar contraseña</label>
-                    <input type="password" name="password_confirmation"
-                           class="w-full border-gray-300 rounded" required>
-                </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                <div class="flex gap-2">
-                    <button class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
-    <x-heroicon-o-check class="w-5 h-5" />
-                        Guardar
-                    </button>
+                        {{-- NOMBRE --}}
+                        <div class="md:col-span-2">
 
-                    <a href="{{ route('usuarios.index') }}"
-                       class="inline-flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
-    <x-heroicon-o-arrow-left class="w-5 h-5" />
-                        Cancelar
-                    </a>
-                </div>
-            </form>
+                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                                <x-heroicon-o-user class="w-5 h-5 text-blue-600" />
+                                Nombre
+                            </label>
+
+                            <input type="text"
+                                   name="name"
+                                   value="{{ old('name') }}"
+                                   class="w-full border-gray-300 rounded-xl focus:border-blue-500 focus:ring-blue-500"
+                                   required>
+
+                            @error('name')
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+
+                        </div>
+
+                        {{-- CORREO --}}
+                        <div class="md:col-span-2">
+
+                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                                <x-heroicon-o-envelope class="w-5 h-5 text-blue-600" />
+                                Correo electrónico
+                            </label>
+
+                            <input type="email"
+                                   name="email"
+                                   value="{{ old('email') }}"
+                                   class="w-full border-gray-300 rounded-xl focus:border-blue-500 focus:ring-blue-500"
+                                   required>
+
+                            @error('email')
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+
+                        </div>
+
+                        {{-- ROL --}}
+                        <div>
+
+                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                                <x-heroicon-o-shield-check class="w-5 h-5 text-blue-600" />
+                                Rol
+                            </label>
+
+                            <select name="role"
+                                    class="w-full border-gray-300 rounded-xl focus:border-blue-500 focus:ring-blue-500"
+                                    required>
+
+                                <option value="">
+                                    Seleccione
+                                </option>
+
+                                <option value="ADMINISTRADOR"
+                                    {{ old('role') == 'ADMINISTRADOR' ? 'selected' : '' }}>
+                                    Administrador
+                                </option>
+
+                                <option value="JURADO"
+                                    {{ old('role') == 'JURADO' ? 'selected' : '' }}>
+                                    Jurado
+                                </option>
+
+                            </select>
+
+                            @error('role')
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+
+                        </div>
+
+                        {{-- CONTRASEÑA --}}
+                        <div>
+
+                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                                <x-heroicon-o-lock-closed class="w-5 h-5 text-blue-600" />
+                                Contraseña
+                            </label>
+
+                            <input type="password"
+                                   name="password"
+                                   class="w-full border-gray-300 rounded-xl focus:border-blue-500 focus:ring-blue-500"
+                                   required>
+
+                            @error('password')
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+
+                        </div>
+
+                        {{-- CONFIRMAR --}}
+                        <div class="md:col-span-2">
+
+                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                                <x-heroicon-o-key class="w-5 h-5 text-blue-600" />
+                                Confirmar contraseña
+                            </label>
+
+                            <input type="password"
+                                   name="password_confirmation"
+                                   class="w-full border-gray-300 rounded-xl focus:border-blue-500 focus:ring-blue-500"
+                                   required>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-4">
+
+                        <div class="flex gap-3">
+
+                            <x-heroicon-o-information-circle
+                                class="w-6 h-6 text-blue-600 flex-shrink-0" />
+
+                            <div>
+
+                                <p class="font-semibold text-blue-700">
+                                    Información
+                                </p>
+
+                                <p class="text-sm text-blue-600">
+                                    Los administradores tienen acceso total al sistema.
+                                    Los jurados únicamente podrán visualizar los concursos
+                                    asignados y registrar evaluaciones.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 mt-8 border-t pt-6">
+
+                        <button
+                            class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl shadow">
+
+                            <x-heroicon-o-check class="w-5 h-5" />
+                            Guardar usuario
+
+                        </button>
+
+                        <a href="{{ route('usuarios.index') }}"
+                           class="inline-flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-5 py-3 rounded-xl">
+
+                            <x-heroicon-o-arrow-left class="w-5 h-5" />
+                            Cancelar
+
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
 
         </div>
+
     </div>
+
 </x-app-layout>
