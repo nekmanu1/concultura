@@ -1,57 +1,121 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-<img src="{{ public_path('images/logo.jpg') }}" style="width: 200px; height: auto;">
-
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <title>Resumen de Resultados</title>
     <style>
-        body { font-family: DejaVu Sans, sans-serif; font-size: 12px; }
-        h2 { text-align: center; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #000; padding: 6px; text-align: center; }
-        th { background-color: #f2f2f2; }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            color: #2c3e50;
+            margin: 20px;
+        }
+        h2 {
+            margin: 0;
+            color: #2c3e50;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            width: 120px;
+            margin-bottom: 10px;
+        }
+        .subheader {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+        td {
+            text-align: left;
+        }
+        .total {
+            font-weight: bold;
+            text-align: center;
+        }
+        .firmas {
+            margin-top: 60px;
+            width: 100%;
+        }
+        .firma {
+            text-align: center;
+            padding: 20px;
+        }
+        .linea {
+            margin-bottom: 5px;
+        }
+        .footer {
+            text-align: right;
+            font-size: 10px;
+            color: #7f8c8d;
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
-    <h2>Resumen de Resultados - Concurso {{ $concurso->nombre }}</h2>
+
+    <!-- Encabezado -->
+    <div class="header">
+        <img src="{{ public_path('images/logo.png') }}" alt="Logo" style="width: 220px; margin-bottom: 10px;">
+        <h2>Resumen de Resultados - Concurso {{ $concurso->nombre }}</h2>
+        <p class="subheader">Ministerio de Cultura</p>
+    </div>
+    <hr>
+
+    <!-- Tabla de resultados -->
     <table>
         <thead>
             <tr>
-                <th>Posición</th>
                 <th>Participante</th>
                 <th>Cédula</th>
-                <th>Puntaje Total</th>
+                <th>Total Puntaje</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($resultados as $index => $resultado)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $resultado->nombre }}</td>
-                    <td>{{ $resultado->cedula ?? 'No registrada' }}</td>
-                    <td>{{ number_format($resultado->total, 2, '.', '') }}</td>
-                </tr>
+            @foreach($resultados as $resultado)
+            <tr>
+                <td>{{ $resultado->nombre }}</td>
+                <td>{{ $resultado->cedula }}</td>
+                <td class="total">{{ number_format($resultado->total, 2) }}</td>
+            </tr>
             @endforeach
         </tbody>
     </table>
-     </table>
 
-    <!-- Espacio para firmas -->
-    <div style="margin-top: 60px; width: 100%; text-align: center;">
-        <table style="width: 100%; border: none; margin-top: 40px;">
-            <tr>
-                <td style="width: 50%; text-align: center;">
-                    ___________________________<br>
-                    {{ $juradosAsignados->name}}
+    <!-- Firmas -->
+    <table class="firmas">
+        <tr>
+            <td class="firma" style="width: 50%;">
+                @foreach($juradosAsignados as $jurado)
+                    <div class="linea">___________________________</div>
+                    <strong>Firma del Jurado</strong><br>
+                    {{ $jurado->name }}<br><br>
+                @endforeach
+            </td>
+            <td class="firma" style="width: 50%;">
+                <div class="linea">___________________________</div>
+                <strong>Firma del Auditor</strong><br>
+            </td>
+        </tr>
+    </table>
 
-                </td>
-                <td style="width: 50%; text-align: center;">
-                    ___________________________<br>
-                    <strong>Firma del Auditor</strong>
-                </td>
-            </tr>
-        </table>
+    <!-- Pie de página -->
+    <div class="footer">
+        Generado el {{ now()->format('d/m/Y H:i') }}
     </div>
+
 </body>
 </html>
