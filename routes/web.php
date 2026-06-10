@@ -13,8 +13,6 @@ use App\Http\Controllers\Jurado\EvaluacionController;
 use App\Http\Controllers\Admin\ResultadoController;
 use App\Http\Controllers\Admin\BitacoraController;
 
-
-
 Route::get('/', function () {
     return redirect()->route('login');
 });

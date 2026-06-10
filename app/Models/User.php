@@ -57,4 +57,11 @@ class User extends Authenticatable
     {
     return $this->hasMany(\App\Models\ConcursoJuradoAspecto::class);
     }
+
+  public function concursos()
+{
+    return $this->belongsToMany(Concurso::class, 'concurso_jurados', 'user_id', 'concurso_id')
+        ->withTimestamps();
+}
+
 }

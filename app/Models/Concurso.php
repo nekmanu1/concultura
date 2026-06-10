@@ -41,4 +41,13 @@ class Concurso extends Model
     {
     return $this->hasMany(Evaluacion::class);
     }
+
+public function jurados()
+{
+    return $this->belongsToMany(User::class, 'concurso_jurados', 'concurso_id', 'user_id')
+        ->withTimestamps();
+}
+
+
+
 }

@@ -10,6 +10,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Response;
+use App\Models\User;
 
 class ResultadoController extends Controller
 {
@@ -48,7 +49,7 @@ class ResultadoController extends Controller
         ));
     }
 
-   public function exportarResumenPDF(Concurso $concurso)
+public function exportarResumenPDF(Concurso $concurso)
 {
     $resultados = Evaluacion::select(
             'participantes.id',
@@ -62,9 +63,14 @@ class ResultadoController extends Controller
         ->orderByDesc('total')
         ->get();
 
-    $pdf = Pdf::loadView('admin.resultados.resumen_pdf', compact('concurso', 'resultados'));
+    // 🔑 Aquí obtienes los jurados asignados al concurso
+    $juradosAsignados = $concurso->jurados; 
+    // usa la relación definida en el modelo Concurso
+
+    $pdf = Pdf::loadView('admin.resultados.resumen_pdf', compact('concurso', 'resultados', 'juradosAsignados'));
     return $pdf->download('resumen_resultados_concurso_' . $concurso->id . '.pdf');
 }
+
 
     public function exportarDesgloseExcel(Concurso $concurso)
 {
