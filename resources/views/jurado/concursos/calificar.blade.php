@@ -46,10 +46,10 @@
                     </div>
                 </div>
 
-                <span class="inline-flex items-center gap-2 bg-white text-blue-700 px-4 py-2 rounded-full text-sm font-semibold">
-                    <x-heroicon-o-user-group class="w-5 h-5" />
-                    {{ $participantes->count() }} participantes
-                </span>
+              <span class="inline-flex items-center gap-2 bg-white text-blue-700 px-4 py-2 rounded-full text-sm font-semibold">
+    <x-heroicon-o-user-group class="w-5 h-5" />
+    Participante {{ $participantes->firstItem() }} de {{ $participantes->total() }}
+</span>
 
             </div>
         </div>
@@ -81,6 +81,7 @@
         @else
 
             <form action="{{ route('jurado.concursos.guardar', $concurso) }}" method="POST">
+    <input type="hidden" name="page" value="{{ request('page', 1) }}">
                 @csrf
 
                 @foreach($participantes as $participante)
@@ -232,6 +233,10 @@
                         <x-heroicon-o-check class="w-5 h-5" />
                         Guardar calificación
                     </button>
+
+                    <div class="mt-6">
+    {{ $participantes->links() }}
+</div>
 
                     <a href="{{ route('jurado.concursos.index') }}"
                        class="inline-flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-5 py-3 rounded-xl">

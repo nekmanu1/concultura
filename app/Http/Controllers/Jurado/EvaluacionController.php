@@ -25,42 +25,44 @@ class EvaluacionController extends Controller
     }
 
     public function calificar(Concurso $concurso)
-    {
-        $this->validarJuradoAsignado($concurso);
-        if ($concurso->estado === 'CERRADO') {
+{
+    $this->validarJuradoAsignado($concurso);
+
+    if ($concurso->estado === 'CERRADO') {
         return redirect()
-        ->route('jurado.concursos.index')
-        ->with('error', 'Este concurso ya fue cerrado.');
-        }
-
-        $aspectoIds = ConcursoJuradoAspecto::where('concurso_id', $concurso->id)
-            ->where('user_id', auth()->id())
-            ->pluck('aspecto_id');
-
-        $concursoCriterios = ConcursoCriterio::with(['criterio', 'aspecto'])
-            ->where('concurso_id', $concurso->id)
-            ->whereIn('aspecto_id', $aspectoIds)
-            ->get()
-            ->groupBy('aspecto_id');
-
-        $participantes = Participante::where('concurso_id', $concurso->id)
-            ->orderBy('nombre')
-            ->get();
-
-        $evaluaciones = Evaluacion::where('concurso_id', $concurso->id)
-            ->where('jurado_id', auth()->id())
-            ->get()
-            ->keyBy(function ($item) {
-                return $item->participante_id . '-' . $item->criterio_id;
-            });
-
-        return view('jurado.concursos.calificar', compact(
-            'concurso',
-            'concursoCriterios',
-            'participantes',
-            'evaluaciones'
-        ));
+            ->route('jurado.concursos.index')
+            ->with('error', 'Este concurso ya fue cerrado.');
     }
+
+    $aspectoIds = ConcursoJuradoAspecto::where('concurso_id', $concurso->id)
+        ->where('user_id', auth()->id())
+        ->pluck('aspecto_id');
+
+    $concursoCriterios = ConcursoCriterio::with(['criterio', 'aspecto'])
+        ->where('concurso_id', $concurso->id)
+        ->whereIn('aspecto_id', $aspectoIds)
+        ->get()
+        ->groupBy('aspecto_id');
+
+    // 1 participante por página, en el mismo orden para todos
+    $participantes = Participante::where('concurso_id', $concurso->id)
+        ->orderBy('id', 'asc')
+        ->paginate(1);
+
+    $evaluaciones = Evaluacion::where('concurso_id', $concurso->id)
+        ->where('jurado_id', auth()->id())
+        ->get()
+        ->keyBy(function ($item) {
+            return $item->participante_id . '-' . $item->criterio_id;
+        });
+
+    return view('jurado.concursos.calificar', compact(
+        'concurso',
+        'concursoCriterios',
+        'participantes',
+        'evaluaciones'
+    ));
+}
 
     public function guardar(Request $request, Concurso $concurso)
     {
@@ -131,8 +133,11 @@ class EvaluacionController extends Controller
         }
 
         return redirect()
-            ->route('jurado.concursos.calificar', $concurso)
-            ->with('success', 'Calificación guardada correctamente.');
+    ->route('jurado.concursos.calificar', [
+        'concurso' => $concurso->id,
+        'page' => $request->input('page', 1),
+    ])
+    ->with('success', 'Calificación guardada correctamente.');
     }
 
     private function validarJuradoAsignado(Concurso $concurso): void
