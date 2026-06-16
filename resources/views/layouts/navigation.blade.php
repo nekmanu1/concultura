@@ -90,9 +90,11 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            Perfil
-                        </x-dropdown-link>
+                       @if(auth()->user()->role === 'ADMINISTRADOR')
+    <x-dropdown-link :href="route('profile.edit')">
+        Perfil
+    </x-dropdown-link>
+@endif
 
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

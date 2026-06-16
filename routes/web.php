@@ -71,10 +71,32 @@ Route::middleware(['auth', 'role:JURADO'])->prefix('jurado')->name('jurado.')->g
     Route::post('/concursos/{concurso}/calificar', [EvaluacionController::class, 'guardar'])
         ->name('concursos.guardar');
 });
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/profile', function () {
+        if (auth()->user()->role !== 'ADMINISTRADOR') {
+            abort(403, 'No tienes permiso para modificar tu perfil.');
+        }
+
+        return app(\App\Http\Controllers\ProfileController::class)->edit(request());
+    })->name('profile.edit');
+
+    Route::patch('/profile', function (\Illuminate\Http\Request $request) {
+        if (auth()->user()->role !== 'ADMINISTRADOR') {
+            abort(403, 'No tienes permiso para modificar tu perfil.');
+        }
+
+        return app(\App\Http\Controllers\ProfileController::class)->update($request);
+    })->name('profile.update');
+
+    Route::delete('/profile', function (\Illuminate\Http\Request $request) {
+        if (auth()->user()->role !== 'ADMINISTRADOR') {
+            abort(403, 'No tienes permiso para eliminar tu perfil.');
+        }
+
+        return app(\App\Http\Controllers\ProfileController::class)->destroy($request);
+    })->name('profile.destroy');
+
 });
 
 require __DIR__.'/auth.php';
