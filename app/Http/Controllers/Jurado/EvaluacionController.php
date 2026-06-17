@@ -10,6 +10,7 @@ use App\Models\ConcursoCriterio;
 use App\Models\Evaluacion;
 use App\Models\Participante;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class EvaluacionController extends Controller
 {
@@ -24,7 +25,7 @@ class EvaluacionController extends Controller
         return view('jurado.concursos.index', compact('concursos'));
     }
 
-    public function calificar(Concurso $concurso)
+   public function calificar(Request $request, Concurso $concurso)
 {
     $this->validarJuradoAsignado($concurso);
 
@@ -44,10 +45,19 @@ class EvaluacionController extends Controller
         ->get()
         ->groupBy('aspecto_id');
 
-    // 1 participante por página, en el mismo orden para todos
-    $participantes = Participante::where('concurso_id', $concurso->id)
-        ->orderBy('id', 'asc')
-        ->paginate(1);
+    // 🔎 Filtro de búsqueda de participantes
+    $query = Participante::where('concurso_id', $concurso->id);
+
+    if ($request->filled('search')) {
+        $search = $request->input('search');
+        $query->where(function ($q) use ($search) {
+            $q->where('nombre', 'like', "%{$search}%")
+              ->orWhere('cedula', 'like', "%{$search}%");
+        });
+    }
+
+    // 1 participante por página
+    $participantes = $query->orderBy('id', 'asc')->paginate(1);
 
     $evaluaciones = Evaluacion::where('concurso_id', $concurso->id)
         ->where('jurado_id', auth()->id())
@@ -56,13 +66,18 @@ class EvaluacionController extends Controller
             return $item->participante_id . '-' . $item->criterio_id;
         });
 
+    // 👇 Lista completa de participantes para el select
+    $participantesSelect = Participante::where('concurso_id', $concurso->id)->get();
+
     return view('jurado.concursos.calificar', compact(
         'concurso',
         'concursoCriterios',
         'participantes',
-        'evaluaciones'
+        'evaluaciones',
+        'participantesSelect' // 👈 ahora disponible en el Blade
     ));
 }
+
 
     public function guardar(Request $request, Concurso $concurso)
     {

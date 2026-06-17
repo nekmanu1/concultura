@@ -3,18 +3,42 @@
     <x-slot name="header">
         <div class="flex items-center gap-3">
             <x-heroicon-o-pencil-square class="w-7 h-7 text-blue-600" />
-
             <div>
                 <h2 class="text-xl font-semibold text-gray-800">
                     Calificar concurso
                 </h2>
-
                 <p class="text-sm text-gray-500">
                     Evaluación de participantes asignados
                 </p>
             </div>
         </div>
     </x-slot>
+
+<!-- Select de participantes -->
+<div class="bg-white rounded-xl border border-gray-200 shadow-sm mb-6 flex justify-center">
+    <form method="GET" action="{{ route('jurado.concursos.calificar', $concurso->id) }}" 
+          class="flex gap-2 items-center max-w-md w-full p-4">
+
+        <label for="participante" class="text-sm font-medium text-gray-600">Seleccionar participante:</label>
+
+        <select id="participante" name="search"
+                class="w-64 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            <option value="">-- Escoge un participante --</option>
+            @foreach($participantesSelect as $p)
+                <option value="{{ $p->cedula }}" 
+                        {{ request('search') == $p->cedula ? 'selected' : '' }}>
+                    {{ $p->nombre }} ({{ $p->cedula }})
+                </option>
+            @endforeach
+        </select>
+
+        <button type="submit"
+                class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition">
+            Ver
+        </button>
+    </form>
+</div>
+
 
     <div class="max-w-7xl mx-auto p-6">
 

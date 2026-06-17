@@ -1,0 +1,67 @@
+[33mcommit 5c96e79ee93aa0428e127c361de9a72c4de73122[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Manuel Alvarado <149335909+nekmanu1@users.noreply.github.com>
+Date:   Wed Jun 10 15:53:51 2026 -0500
+
+    Mejora visual interfaz
+
+[33mcommit dddffc56d4505934a9f1b1314db047fc25151caf[m
+Merge: 8deba75 b92c49d
+Author: Manuel Alvarado <149335909+nekmanu1@users.noreply.github.com>
+Date:   Wed Jun 10 12:01:20 2026 -0500
+
+    Fix merge conflict composer.lock
+
+[33mcommit 8deba75db748920cafc41b539e31c2c4277d01bb[m
+Author: Manuel Alvarado <149335909+nekmanu1@users.noreply.github.com>
+Date:   Wed Jun 10 11:41:40 2026 -0500
+
+    Instalación de DomPDF
+
+[33mcommit b92c49d9dc3779cc9a38bcc6dad13bad639c5907[m
+Author: Adisonpz <adisonp98@gmail.com>
+Date:   Wed Jun 10 08:52:49 2026 -0500
+
+    login
+
+[33mcommit 0e07190941fdb5358e32c9bf462bda3c4ffcb283[m
+Merge: a24fc19 94a532c
+Author: Adisonpz <adisonp98@gmail.com>
+Date:   Mon Jun 8 11:31:51 2026 -0500
+
+    Merge branch 'main' of https://github.com/nekmanu1/concultura
+
+[33mcommit a24fc19a2030f02ddab36678d6d6a4a641a2aeef[m
+Author: Adisonpz <adisonp98@gmail.com>
+Date:   Mon Jun 8 11:31:49 2026 -0500
+
+    Mis cambios locales en index.blade.php y composer.json
+
+[33mcommit fd0879ba607320bf914a3c6f676947c3877f7fc6[m
+Author: Adisonpz <adisonp98@gmail.com>
+Date:   Mon Jun 8 11:31:23 2026 -0500
+
+    Mis cambios locales en index.blade.php y composer.json
+
+[33mcommit 94a532c5aa74faf89de977094026a6aba668e281[m
+Author: Manuel Alvarado <149335909+nekmanu1@users.noreply.github.com>
+Date:   Mon Jun 8 08:40:35 2026 -0500
+
+    Agregué iconos
+
+[33mcommit eae597a671f202b948fce407573e24fd459357dc[m
+Author: Adisonpz <adisonp98@gmail.com>
+Date:   Fri Jun 5 14:38:38 2026 -0500
+
+    Una prueba
+
+[33mcommit a6bfa7615f51254f5dec89b6a973e360351c0d31[m
+Author: Manuel Alvarado <149335909+nekmanu1@users.noreply.github.com>
+Date:   Fri Jun 5 13:35:50 2026 -0500
+
+    Agregué bitácoras
+
+[33mcommit fc488fe9cf42a1a1fda0b3fe13fa75cd7fd00629[m
+Author: Manuel Alvarado <149335909+nekmanu1@users.noreply.github.com>
+Date:   Mon Jun 1 13:34:12 2026 -0500
+
+    Primer commit
