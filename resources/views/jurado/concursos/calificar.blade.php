@@ -183,8 +183,8 @@
                                                 </th>
 
                                                 <th class="p-4 text-left font-semibold text-gray-700">
-                                                    Observación
-                                                </th>
+                                                    Observación <span class="text-red-600">*</span>
+                                                 </th>
                                             </tr>
                                         </thead>
 
@@ -229,9 +229,10 @@
 
                                                     <td class="p-4">
                                                         <textarea name="observaciones[{{ $participante->id }}][{{ $item->criterio_id }}]"
-                                                                  class="w-full border-gray-300 rounded-xl focus:border-blue-500 focus:ring-blue-500"
+                                                                  class="w-full border-gray-300 rounded-xl focus:border-blue-500 focus:ring-blue-500 required"
                                                                   rows="2"
-                                                                  placeholder="Observación opcional">{{ old('observaciones.' . $participante->id . '.' . $item->criterio_id, $evaluacion->observacion ?? '') }}</textarea>
+                                                                  placeholder="Observación obligatoria">{{ old('observaciones.' . $participante->id . '.' . $item->criterio_id, $evaluacion->observacion ?? '') }}</textarea>
+                                                                  
                                                     </td>
 
                                                 </tr>
