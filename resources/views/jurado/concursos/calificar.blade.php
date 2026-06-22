@@ -15,7 +15,7 @@
     </x-slot>
 
 <!-- Select de participantes -->
-<div class="bg-white rounded-xl border border-gray-200 shadow-sm mb-6 flex justify-center">
+<div class="bg-white  border border-gray-200 shadow-sm mb-6 flex justify-center">
     <form method="GET" action="{{ route('jurado.concursos.calificar', $concurso->id) }}" 
           class="flex gap-2 items-center max-w-md w-full p-4">
 
@@ -257,10 +257,6 @@
                         <x-heroicon-o-check class="w-5 h-5" />
                         Guardar calificación
                     </button>
-
-                    <div class="mt-6">
-    {{ $participantes->links() }}
-</div>
 
                     <a href="{{ route('jurado.concursos.index') }}"
                        class="inline-flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-5 py-3 rounded-xl">

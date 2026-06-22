@@ -69,6 +69,21 @@
 
                         </div>
 
+                        <div class="mb-4">
+    <label class="block mb-1">Usuario</label>
+
+    <input
+        type="text"
+        name="username"
+        value="{{ old('username') }}"
+        class="w-full border-gray-300 rounded"
+        required>
+
+    @error('username')
+        <p class="text-red-600 text-sm">{{ $message }}</p>
+    @enderror
+</div>
+
                         {{-- CORREO --}}
                         <div class="md:col-span-2">
 
