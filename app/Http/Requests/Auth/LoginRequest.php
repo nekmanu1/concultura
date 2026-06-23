@@ -41,10 +41,12 @@ class LoginRequest extends FormRequest
         ], $this->boolean('remember'))) {
 
             RateLimiter::hit($this->throttleKey());
-
-            throw ValidationException::withMessages([
-                'username' => trans('auth.failed'),
-            ]);
+throw ValidationException::withMessages([
+    'username' => __('auth.throttle', [
+        'seconds' => $seconds,
+        'minutes' => ceil($seconds / 60),
+    ]),
+]);
         }
 
         RateLimiter::clear($this->throttleKey());

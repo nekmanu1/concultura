@@ -47,29 +47,34 @@
                     </div>
                 </div>
 <!-- Select de participantes -->
-<div class="bg-white border border-gray-200 shadow-sm mb-6 flex justify-center rounded-xl">
-    <form method="GET" action="{{ route('jurado.concursos.calificar', $concurso->id) }}" 
-          class="flex gap-2 items-center max-w-md w-full p-4">
+<form method="GET"
+      action="{{ route('jurado.concursos.calificar', $concurso->id) }}"
+      class="flex items-center gap-3">
 
-        <label for="participante" class="text-sm font-medium text-blue-600">Seleccionar participante:</label>
+    <label for="participante"
+           class="text-sm font-medium text-blue-100 whitespace-nowrap">
+        Participante:
+    </label>
 
-        <select id="participante" name="search"
-                class="w-64 border-gray-300 rounded-xl shadow-sm focus:border-blue-500 focus:ring-blue-500 text-black">
-            <option value="">Participantes</option>
-            @foreach($participantesSelect as $p)
-                <option value="{{ $p->cedula }}" 
-                        {{ request('search') == $p->cedula ? 'selected' : '' }}>
-                    {{ $p->nombre }} ({{ $p->cedula }})
-                </option>
-            @endforeach
-        </select>
+    <select id="participante"
+            name="search"
+            onchange="this.form.submit()"
+            class="w-80 bg-white border-0 rounded-xl shadow-md
+                   text-gray-700 focus:ring-2 focus:ring-white">
 
-        <button type="submit"
-                class="px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition">
-            Ver
-        </button>
-    </form>
-</div>
+        <option value="">Seleccionar participante</option>
+
+        @foreach($participantesSelect as $p)
+            <option value="{{ $p->cedula }}"
+                {{ request('search') == $p->cedula ? 'selected' : '' }}>
+                {{ $p->nombre }} ({{ $p->cedula }})
+            </option>
+        @endforeach
+
+    </select>
+
+
+</form>
 
               <span class="inline-flex items-center gap-2 bg-white text-blue-700 px-4 py-2 rounded-full text-sm font-semibold">
     <x-heroicon-o-user-group class="w-5 h-5" />
@@ -137,6 +142,27 @@
                                 Participante
                             </span>
                         </div>
+
+@if($concurso->permitir_recursos_jurados && $participante->recursos->count())
+    <div class="mt-4 bg-blue-50 border border-blue-200 rounded-xl p-4">
+        <p class="font-semibold text-blue-700 mb-2 flex items-center gap-2">
+            <x-heroicon-o-link class="w-5 h-5" />
+            Recursos del participante
+        </p>
+
+        <div class="space-y-2">
+            @foreach($participante->recursos as $recurso)
+                <a href="{{ $recurso->url }}"
+                   target="_blank"
+                   class="inline-flex items-center gap-2 text-blue-700 hover:text-blue-900 underline">
+                    <x-heroicon-o-arrow-top-right-on-square class="w-4 h-4" />
+                    {{ $recurso->titulo ?: $recurso->url }}
+                </a>
+            @endforeach
+        </div>
+    </div>
+@endif
+            
                         @if($participante->descripcion)
                             <p class="text-sm text-gray-600 mt-4">
                                 {{ $participante->descripcion }}
