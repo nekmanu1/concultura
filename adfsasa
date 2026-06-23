@@ -1,0 +1,17 @@
+[33mb91a4ea[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Merge branch 'main' of https://github.com/nekmanu1/concultura
+[33mb9814ae[m Profile mejorado
+[33mb4fd71e[m Cambio de mensaje que la observación es obligatoria desde Calificar.blade
+[33md9808a2[m Cambio de busqueda, opciones elegir usuario SELECT EvaluacionController, Calificar.blade
+[33m5dd1073[m Jurado puede calificar uno por uno
+[33m6df6058[m Jurado no puede ver perfil
+[33m5c96e79[m Mejora visual interfaz
+[33mdddffc5[m Fix merge conflict composer.lock
+[33m8deba75[m Instalación de DomPDF
+[33mb92c49d[m login
+[33m0e07190[m Merge branch 'main' of https://github.com/nekmanu1/concultura
+[33ma24fc19[m Mis cambios locales en index.blade.php y composer.json
+[33mfd0879b[m Mis cambios locales en index.blade.php y composer.json
+[33m94a532c[m Agregué iconos
+[33meae597a[m Una prueba
+[33ma6bfa76[m Agregué bitácoras
+[33mfc488fe[m Primer commit
