@@ -43,7 +43,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'username' => __('auth.failed'),
+                'username' => 'Usuario o contraseña incorrectos.',
             ]);
         }
 
@@ -62,12 +62,12 @@ class LoginRequest extends FormRequest
         event(new Lockout($this));
 
         $seconds = RateLimiter::availableIn($this->throttleKey());
+        $minutes = ceil($seconds / 60);
 
         throw ValidationException::withMessages([
-            'username' => __('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
+            'username' => 'Demasiados intentos de inicio de sesión. Intente nuevamente en '
+                . $minutes
+                . ' minuto(s).',
         ]);
     }
 
