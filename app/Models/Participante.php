@@ -23,4 +23,8 @@ class Participante extends Model
     {
     return $this->hasMany(Evaluacion::class);
     }
+    public function recursos()
+{
+    return $this->hasMany(\App\Models\ParticipanteRecurso::class);
+}
 }

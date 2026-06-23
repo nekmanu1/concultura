@@ -30,12 +30,14 @@ class UserController extends Controller
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'role' => ['required', Rule::in(['ADMINISTRADOR', 'JURADO'])],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'username' => 'required|string|max:255|unique:users',
         ]);
 
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'role' => $request->role,
+            'username' => $request->username,
             'password' => Hash::make($request->password),
         ]);
 
@@ -64,6 +66,7 @@ class UserController extends Controller
                 'max:255',
                 Rule::unique('users', 'email')->ignore($usuario->id),
             ],
+            'username' => 'required|string|max:255|unique:users,username,' . $usuario->id,
             'role' => ['required', Rule::in(['ADMINISTRADOR', 'JURADO'])],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
         ]);
@@ -71,6 +74,7 @@ class UserController extends Controller
         $usuario->name = $request->name;
         $usuario->email = $request->email;
         $usuario->role = $request->role;
+        $usuario->username = $request->username;
 
         if ($request->filled('password')) {
             $usuario->password = Hash::make($request->password);

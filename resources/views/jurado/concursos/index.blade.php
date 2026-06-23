@@ -18,7 +18,9 @@
 
     </x-slot>
 
-    <div class="max-w-7xl mx-auto p-6">
+
+
+    <div class="max-w-7xl mx-auto p-4">
 
         @if(session('error'))
             <div class="mb-6 bg-red-100 border border-red-200 text-red-700 p-4 rounded-xl">

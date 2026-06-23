@@ -13,6 +13,11 @@ class Concurso extends Model
         'fecha_inicio',
         'fecha_fin',
         'estado',
+        'permitir_recursos_jurados',
+    ];
+
+    protected $casts = [
+    'permitir_recursos_jurados' => 'boolean',
     ];
 
     public function categoria()

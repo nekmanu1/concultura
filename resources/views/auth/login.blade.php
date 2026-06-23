@@ -8,20 +8,21 @@
             <div class="flex flex-col items-center mb-6">
 
                 <img src="{{ asset('images/logo.png') }}"
-     alt="Logo ConCultura"
-     class="w-56 h-auto mb-5">
+                     alt="Logo ConCultura"
+                     class="w-56 h-auto mb-5">
 
                 <h1 class="text-3xl font-bold text-gray-800">
                     Sistema de Votación
                 </h1>
 
-               <p class="text-yellow-700 font-semibold text-center">
-    Ministerio de Cultura
-</p>
+                <p class="text-yellow-700 font-semibold text-center">
+                    Ministerio de Cultura
+                </p>
 
-<p class="text-gray-500 text-sm text-center mt-2">
-    Plataforma de evaluación, votación y resultados
-</p>
+                <p class="text-gray-500 text-sm text-center mt-2">
+                    Plataforma de evaluación, votación y resultados
+                </p>
+
             </div>
 
             <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -29,29 +30,32 @@
             <form method="POST" action="{{ route('login') }}">
                 @csrf
 
-                {{-- CORREO --}}
+                {{-- USUARIO --}}
                 <div class="mb-5">
 
                     <x-input-label
-                        for="email"
-                        :value="__('Correo electrónico')"
+                        for="username"
+                        :value="__('Usuario')"
                         class="text-gray-700 font-semibold"
                     />
 
                     <x-text-input
-                        id="email"
+                        id="username"
                         class="block mt-2 w-full rounded-lg border-gray-300 shadow-sm
-       focus:border-yellow-600 focus:ring-yellow-500 py-3"
-                        type="email"
-                        name="email"
-                        :value="old('email')"
+                               focus:border-yellow-600 focus:ring-yellow-500 py-3"
+                        type="text"
+                        name="username"
+                        :value="old('username')"
                         required
                         autofocus
                         autocomplete="username"
-                        placeholder="Ingrese su correo"
+                        placeholder="Ingrese su usuario"
                     />
 
-                    <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-600" />
+                    <x-input-error
+                        :messages="$errors->get('username')"
+                        class="mt-2 text-red-600"
+                    />
 
                 </div>
 
@@ -75,32 +79,57 @@
                         placeholder="Ingrese su contraseña"
                     />
 
-                    <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-600" />
+                    <x-input-error
+                        :messages="$errors->get('password')"
+                        class="mt-2 text-red-600"
+                    />
+
+                </div>
+
+                {{-- RECORDARME --}}
+                <div class="mb-6">
+
+                    <label class="inline-flex items-center">
+
+                        <input
+                            type="checkbox"
+                            name="remember"
+                            class="rounded border-gray-300 text-yellow-700 shadow-sm focus:ring-yellow-500">
+
+                        <span class="ms-2 text-sm text-gray-600">
+                            Recordarme
+                        </span>
+
+                    </label>
 
                 </div>
 
                 {{-- BOTÓN --}}
                 <div class="mt-8">
 
-                    <button type="submit"
-    class="w-full flex items-center justify-center gap-2
-           bg-yellow-700 hover:bg-yellow-800
-           text-white font-bold text-lg
-           py-4 px-4 rounded-xl
-           shadow-lg transition duration-200">
+                    <button
+                        type="submit"
+                        class="w-full flex items-center justify-center gap-2
+                               bg-yellow-700 hover:bg-yellow-800
+                               text-white font-bold text-lg
+                               py-4 px-4 rounded-xl
+                               shadow-lg transition duration-200">
 
                         <svg xmlns="http://www.w3.org/2000/svg"
                              class="w-5 h-5"
                              fill="none"
                              viewBox="0 0 24 24"
                              stroke="currentColor">
+
                             <path stroke-linecap="round"
                                   stroke-linejoin="round"
                                   stroke-width="2"
                                   d="M15 12H3m0 0l4-4m-4 4l4 4m6-10h5a2 2 0 012 2v8a2 2 0 01-2 2h-5" />
+
                         </svg>
 
                         Ingresar
+
                     </button>
 
                 </div>
@@ -109,9 +138,11 @@
 
             {{-- PIE --}}
             <div class="mt-6 text-center">
+
                 <p class="text-xs text-gray-400">
                     © {{ date('Y') }} ConCultura
                 </p>
+
             </div>
 
         </div>

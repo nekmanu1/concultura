@@ -14,6 +14,13 @@
         </div>
     </x-slot>
 
+<<<<<<< HEAD
+=======
+<!-- Select de participantes -->
+<div class="bg-white  border border-gray-200 shadow-sm mb-6 flex justify-center">
+    <form method="GET" action="{{ route('jurado.concursos.calificar', $concurso->id) }}" 
+          class="flex gap-2 items-center max-w-md w-full p-4">
+>>>>>>> 64932652def6c3a7379d9588afcf8c2d46183692
 
 
 
@@ -113,7 +120,35 @@
 
             @foreach($participantes as $participante)
 
+<<<<<<< HEAD
                 <div class="bg-white rounded-2xl shadow-lg mb-8 overflow-hidden">
+=======
+                    <div class="bg-white rounded-2xl shadow-lg mb-8 overflow-hidden">
+
+                        <div class="bg-gray-50 border-b p-5">
+
+                            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+
+                                <div class="flex items-center gap-3">
+
+                                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
+                                        <x-heroicon-o-user class="w-6 h-6 text-green-600" />
+                                    </div>
+
+                                    <div>
+                                        <h3 class="text-lg font-bold text-gray-800">
+                                            {{ $participante->nombre }}
+                                        </h3>
+
+                                        @if($participante->cedula)
+                                            <p class="text-sm text-gray-500">
+                                                Cédula: {{ $participante->cedula }}
+                                            </p>
+                                        @endif
+
+                        
+                                    </div>
+>>>>>>> 64932652def6c3a7379d9588afcf8c2d46183692
 
                     <div class="bg-gray-50 border-b p-5">
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
@@ -132,6 +167,7 @@
                                     @endif
                                 </div>
                             </div>
+<<<<<<< HEAD
                             <span class="inline-flex items-center gap-1 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
                                 <x-heroicon-o-user class="w-4 h-4" />
                                 Participante
@@ -142,6 +178,136 @@
                                 {{ $participante->descripcion }}
                             </p>
                         @endif
+=======
+
+                                @if($concurso->permitir_recursos_jurados && $participante->recursos->count())
+    <div class="mt-4  p-4">
+        <p class="font-semibold text-blue-700 mb-2 flex items-center gap-2">
+            <x-heroicon-o-link class="w-5 h-5" />
+            Recursos del participante
+        </p>
+
+        <div class="space-y-2 gap-2">
+            @foreach($participante->recursos as $recurso)
+                <a href="{{ $recurso->url }}"
+                   target="_blank"
+                   class="inline-flex p-4 items-center gap-2 text-blue-700 hover:text-blue-900 underline">
+                    <x-heroicon-o-arrow-top-right-on-square class="w-4 h-4" />
+                    {{ $recurso->titulo ?: $recurso->url }}
+                </a>
+            @endforeach
+        </div>
+    </div>
+@endif
+
+                            @if($participante->descripcion)
+                                <p class="text-sm text-gray-600 mt-4">
+                                    {{ $participante->descripcion }}
+                                </p>
+                            @endif
+
+                        </div>
+
+                        
+
+                        @foreach($concursoCriterios as $grupo)
+
+                            @php
+                                $aspecto = $grupo->first()->aspecto;
+                            @endphp
+
+                            <div class="p-5 border-b">
+
+                                <h4 class="font-bold text-blue-700 mb-4 flex items-center gap-2">
+                                    <x-heroicon-o-clipboard-document-list class="w-5 h-5" />
+                                    {{ $aspecto->nombre }}
+                                </h4>
+
+                                <div class="overflow-x-auto">
+
+                                    <table class="w-full">
+
+                                        <thead>
+                                            <tr class="bg-gray-50 border-b">
+                                                <th class="p-4 text-left font-semibold text-gray-700">
+                                                    Criterio
+                                                </th>
+
+                                                <th class="p-4 text-left font-semibold text-gray-700">
+                                                    Máximo
+                                                </th>
+
+                                                <th class="p-4 text-left font-semibold text-gray-700">
+                                                    Puntaje
+                                                </th>
+
+                                                <th class="p-4 text-left font-semibold text-gray-700">
+                                                    Observación <span class="text-red-600">*</span>
+                                                 </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach($grupo as $item)
+
+                                                @php
+                                                    $key = $participante->id . '-' . $item->criterio_id;
+                                                    $evaluacion = $evaluaciones[$key] ?? null;
+                                                @endphp
+
+                                                <tr class="border-b hover:bg-gray-50">
+
+                                                    <td class="p-4">
+                                                        <p class="font-semibold text-gray-800">
+                                                            {{ $item->criterio->nombre }}
+                                                        </p>
+
+                                                        @if($item->criterio->descripcion)
+                                                            <p class="text-sm text-gray-500 mt-1">
+                                                                {{ $item->criterio->descripcion }}
+                                                            </p>
+                                                        @endif
+                                                    </td>
+
+                                                    <td class="p-4">
+                                                        <span class="inline-flex items-center gap-1 bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                                            <x-heroicon-o-star class="w-4 h-4" />
+                                                            {{ number_format($item->criterio->puntaje_maximo, 2) }}
+                                                        </span>
+                                                    </td>
+
+                                                    <td class="p-4">
+                                                        <input type="number"
+                                                               step="0.01"
+                                                               min="0"
+                                                               max="{{ $item->criterio->puntaje_maximo }}"
+                                                               name="puntajes[{{ $participante->id }}][{{ $item->criterio_id }}]"
+                                                               value="{{ old('puntajes.' . $participante->id . '.' . $item->criterio_id, $evaluacion->puntaje ?? '') }}"
+                                                               class="w-32 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-blue-500">
+                                                    </td>
+
+                                                    <td class="p-4">
+                                                        <textarea name="observaciones[{{ $participante->id }}][{{ $item->criterio_id }}]"
+                                                                  class="w-full border-gray-300 rounded-xl focus:border-blue-500 focus:ring-blue-500 required"
+                                                                  rows="2"
+                                                                  placeholder="Observación obligatoria">{{ old('observaciones.' . $participante->id . '.' . $item->criterio_id, $evaluacion->observacion ?? '') }}</textarea>
+                                                                  
+                                                    </td>
+
+                                                </tr>
+
+                                            @endforeach
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                        @endforeach
+
+>>>>>>> 64932652def6c3a7379d9588afcf8c2d46183692
                     </div>
 
                     @foreach($concursoCriterios as $grupo)
@@ -149,11 +315,26 @@
                             $aspecto = $grupo->first()->aspecto;
                         @endphp
 
+<<<<<<< HEAD
                         <div class="p-5 border-b">
                             <h4 class="font-bold text-blue-700 mb-4 flex items-center gap-2">
                                 <x-heroicon-o-clipboard-document-list class="w-5 h-5" />
                                 {{ $aspecto->nombre }}
                             </h4>
+=======
+                <div class="sticky bottom-0 bg-white/90 backdrop-blur border rounded-2xl shadow-lg p-4 flex flex-wrap gap-2 justify-between">
+
+                    <button class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl shadow">
+                        <x-heroicon-o-check class="w-5 h-5" />
+                        Guardar calificación
+                    </button>
+
+                    <a href="{{ route('jurado.concursos.index') }}"
+                       class="inline-flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-5 py-3 rounded-xl">
+                        <x-heroicon-o-arrow-left class="w-5 h-5" />
+                        Volver
+                    </a>
+>>>>>>> 64932652def6c3a7379d9588afcf8c2d46183692
 
                             <div class="overflow-x-auto">
                                 <table class="w-full">

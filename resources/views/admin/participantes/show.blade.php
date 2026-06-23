@@ -135,6 +135,26 @@
 
                     </div>
 
+                    @if($participante->recursos->count())
+    <div class="bg-gray-50 border rounded-xl p-4 md:col-span-2">
+        <div class="flex items-center gap-2 text-gray-500 text-sm mb-3">
+            <x-heroicon-o-link class="w-5 h-5" />
+            Recursos
+        </div>
+
+        <div class="space-y-2">
+            @foreach($participante->recursos as $recurso)
+                <a href="{{ $recurso->url }}"
+                   target="_blank"
+                   class="flex items-center gap-2 text-green-700 hover:text-green-900 underline">
+                    <x-heroicon-o-arrow-top-right-on-square class="w-4 h-4" />
+                    {{ $recurso->titulo ?: $recurso->url }}
+                </a>
+            @endforeach
+        </div>
+    </div>
+@endif
+
                 </div>
 
                 {{-- RESUMEN --}}

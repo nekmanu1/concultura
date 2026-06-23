@@ -161,6 +161,29 @@
                         </div>
 
                     </div>
+<div class="mt-6 bg-red-50 border border-red-200 rounded-xl p-4">
+    <label class="flex items-start gap-3 cursor-pointer">
+
+        <input type="hidden" name="permitir_recursos_jurados" value="0">
+
+        <input type="checkbox"
+               name="permitir_recursos_jurados"
+               value="1"
+               class="mt-1 rounded border-gray-300 text-red-600 focus:ring-red-500"
+               {{ old('permitir_recursos_jurados', $concurso->permitir_recursos_jurados) ? 'checked' : '' }}>
+
+        <div>
+            <p class="font-semibold text-red-700">
+                Permitir recursos para jurados
+            </p>
+
+            <p class="text-sm text-red-600">
+                Si está activo, los jurados podrán ver los links agregados a cada participante.
+            </p>
+        </div>
+
+    </label>
+</div>
 
                     <div class="mt-6 bg-red-50 border border-red-200 rounded-xl p-4">
                         <div class="flex gap-3">

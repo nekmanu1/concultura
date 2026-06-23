@@ -112,16 +112,18 @@ class ConcursoController extends Controller {
             'fecha_inicio' => ['nullable', 'date'],
             'fecha_fin' => ['nullable', 'date', 'after_or_equal:fecha_inicio'],
             'estado' => ['required', 'in:BORRADOR,ACTIVO,CERRADO'],
+            'permitir_recursos_jurados' => ['nullable', 'boolean'],
         ]);
 
-        $concurso = Concurso::create($request->only([
-    'categoria_id',
-    'nombre',
-    'descripcion',
-    'fecha_inicio',
-    'fecha_fin',
-    'estado',
-]));
+       $concurso = Concurso::create([
+    'categoria_id' => $request->categoria_id,
+    'nombre' => $request->nombre,
+    'descripcion' => $request->descripcion,
+    'fecha_inicio' => $request->fecha_inicio,
+    'fecha_fin' => $request->fecha_fin,
+    'estado' => $request->estado,
+    'permitir_recursos_jurados' => $request->input('permitir_recursos_jurados', 0),
+]);
         
         BitacoraHelper::registrar(
     'CREAR',
@@ -161,16 +163,17 @@ class ConcursoController extends Controller {
             'fecha_inicio' => ['nullable', 'date'],
             'fecha_fin' => ['nullable', 'date', 'after_or_equal:fecha_inicio'],
             'estado' => ['required', 'in:BORRADOR,ACTIVO,CERRADO'],
+            'permitir_recursos_jurados' => ['nullable', 'boolean'],
         ]);
-
-        $concurso->update($request->only([
-            'categoria_id',
-            'nombre',
-            'descripcion',
-            'fecha_inicio',
-            'fecha_fin',
-            'estado',
-        ]));
+$concurso->update([
+    'categoria_id' => $request->categoria_id,
+    'nombre' => $request->nombre,
+    'descripcion' => $request->descripcion,
+    'fecha_inicio' => $request->fecha_inicio,
+    'fecha_fin' => $request->fecha_fin,
+    'estado' => $request->estado,
+    'permitir_recursos_jurados' => $request->input('permitir_recursos_jurados', 0),
+]);
 
         BitacoraHelper::registrar(
     'EDITAR',

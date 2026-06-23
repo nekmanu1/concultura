@@ -79,7 +79,11 @@
                     <tr class="bg-gray-50 border-b">
 
                         <th class="p-4 text-left font-semibold text-gray-700">
-                            Usuario
+                            Nombre
+                        </th>
+
+                        <th class="p-4 text-left font-semibold text-gray-700">
+                           Usuario
                         </th>
 
                         <th class="p-4 text-left font-semibold text-gray-700">
@@ -127,6 +131,8 @@
                                 </div>
 
                             </td>
+
+                            <td class="p-4 text-gray-600">{{ $usuario->username }}</td>
 
                             <td class="p-4 text-gray-600">
                                 {{ $usuario->email }}

@@ -12,14 +12,16 @@
 
                 <div class="hidden space-x-6 sm:-my-px sm:ms-10 sm:flex">
 
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                   
+
+                    @if(auth()->user()->role === 'ADMINISTRADOR')
+
+                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         <span class="flex items-center gap-1">
                             <x-heroicon-o-home class="w-4 h-4" />
                             Dashboard
                         </span>
-                    </x-nav-link>
-
-                    @if(auth()->user()->role === 'ADMINISTRADOR')
+                        </x-nav-link>
 
                         <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">
                             <span class="flex items-center gap-1">
@@ -124,11 +126,13 @@
 
         <div class="pt-2 pb-3 space-y-1">
 
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                Dashboard
-            </x-responsive-nav-link>
+           
 
             @if(auth()->user()->role === 'ADMINISTRADOR')
+                
+                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                Dashboard
+                </x-responsive-nav-link>
 
                 <x-responsive-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')">
                     Usuarios
