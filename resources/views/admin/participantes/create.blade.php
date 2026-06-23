@@ -195,6 +195,39 @@
 
                         </div>
 
+                        <div class="md:col-span-2">
+    <div class="bg-green-50 border border-green-200 rounded-xl p-4">
+        <div class="flex items-center gap-2 mb-4">
+            <x-heroicon-o-link class="w-5 h-5 text-green-600" />
+            <h3 class="font-semibold text-green-700">
+                Recursos
+            </h3>
+        </div>
+
+        <div class="space-y-3">
+            @for($i = 0; $i < 3; $i++)
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <input type="text"
+                           name="recursos[{{ $i }}][titulo]"
+                           value="{{ old('recursos.' . $i . '.titulo', $participante->recursos[$i]->titulo ?? '') }}"
+                           class="w-full border-gray-300 rounded-xl focus:border-green-500 focus:ring-green-500"
+                           placeholder="Título del recurso">
+
+                    <input type="url"
+                           name="recursos[{{ $i }}][url]"
+                           value="{{ old('recursos.' . $i . '.url', $participante->recursos[$i]->url ?? '') }}"
+                           class="w-full border-gray-300 rounded-xl focus:border-green-500 focus:ring-green-500"
+                           placeholder="https://ejemplo.com">
+                </div>
+            @endfor
+        </div>
+
+        <p class="text-xs text-green-600 mt-3">
+            Puedes agregar links a videos, carpetas, imágenes o documentos externos.
+        </p>
+    </div>
+</div>
+
                     </div>
 
                     {{-- INFORMACION --}}

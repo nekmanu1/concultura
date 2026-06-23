@@ -42,22 +42,28 @@ class ParticipanteController extends Controller
             'telefono' => ['nullable', 'string', 'max:100'],
             'correo' => ['nullable', 'email', 'max:255'],
             'descripcion' => ['nullable', 'string'],
+
+            'recursos' => ['nullable', 'array'],
+            'recursos.*.titulo' => ['nullable', 'string', 'max:255'],
+            'recursos.*.url' => ['nullable', 'url', 'max:1000'],
         ]);
 
         $concurso = Concurso::findOrFail($request->concurso_id);
 
-if ($concurso->estado === 'CERRADO') {
-    return back()->with('error', 'El concurso está cerrado.');
-}
+        if ($concurso->estado === 'CERRADO') {
+            return back()->with('error', 'El concurso está cerrado.');
+        }
 
-        Participante::create($request->only([
-            'concurso_id',
-            'nombre',
-            'cedula',
-            'telefono',
-            'correo',
-            'descripcion',
-        ]));
+        $participante = Participante::create([
+            'concurso_id' => $request->concurso_id,
+            'nombre' => $request->nombre,
+            'cedula' => $request->cedula,
+            'telefono' => $request->telefono,
+            'correo' => $request->correo,
+            'descripcion' => $request->descripcion,
+        ]);
+
+        $this->guardarRecursos($request, $participante);
 
         return redirect()
             ->route('participantes.index', ['concurso_id' => $request->concurso_id])
@@ -66,13 +72,15 @@ if ($concurso->estado === 'CERRADO') {
 
     public function show(Participante $participante)
     {
-        $participante->load('concurso');
+        $participante->load('concurso', 'recursos');
 
         return view('admin.participantes.show', compact('participante'));
     }
 
     public function edit(Participante $participante)
     {
+        $participante->load('recursos');
+
         $concursos = Concurso::orderBy('nombre')->get();
 
         return view('admin.participantes.edit', compact('participante', 'concursos'));
@@ -87,22 +95,30 @@ if ($concurso->estado === 'CERRADO') {
             'telefono' => ['nullable', 'string', 'max:100'],
             'correo' => ['nullable', 'email', 'max:255'],
             'descripcion' => ['nullable', 'string'],
+
+            'recursos' => ['nullable', 'array'],
+            'recursos.*.titulo' => ['nullable', 'string', 'max:255'],
+            'recursos.*.url' => ['nullable', 'url', 'max:1000'],
         ]);
 
         $concurso = Concurso::findOrFail($request->concurso_id);
 
-if ($concurso->estado === 'CERRADO') {
-    return back()->with('error', 'El concurso está cerrado.');
-}
+        if ($concurso->estado === 'CERRADO') {
+            return back()->with('error', 'El concurso está cerrado.');
+        }
 
-        $participante->update($request->only([
-            'concurso_id',
-            'nombre',
-            'cedula',
-            'telefono',
-            'correo',
-            'descripcion',
-        ]));
+        $participante->update([
+            'concurso_id' => $request->concurso_id,
+            'nombre' => $request->nombre,
+            'cedula' => $request->cedula,
+            'telefono' => $request->telefono,
+            'correo' => $request->correo,
+            'descripcion' => $request->descripcion,
+        ]);
+
+        $participante->recursos()->delete();
+
+        $this->guardarRecursos($request, $participante);
 
         return redirect()
             ->route('participantes.index', ['concurso_id' => $request->concurso_id])
@@ -114,13 +130,25 @@ if ($concurso->estado === 'CERRADO') {
         $concursoId = $participante->concurso_id;
 
         if ($participante->concurso->estado === 'CERRADO') {
-    return back()->with('error', 'El concurso está cerrado.');
-}
+            return back()->with('error', 'El concurso está cerrado.');
+        }
 
         $participante->delete();
 
         return redirect()
             ->route('participantes.index', ['concurso_id' => $concursoId])
             ->with('success', 'Participante eliminado correctamente.');
+    }
+
+    private function guardarRecursos(Request $request, Participante $participante): void
+    {
+        foreach (($request->recursos ?? []) as $recurso) {
+            if (!empty($recurso['url'])) {
+                $participante->recursos()->create([
+                    'titulo' => $recurso['titulo'] ?? null,
+                    'url' => $recurso['url'],
+                ]);
+            }
+        }
     }
 }

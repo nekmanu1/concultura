@@ -132,6 +132,8 @@
                                                 Cédula: {{ $participante->cedula }}
                                             </p>
                                         @endif
+
+                        
                                     </div>
 
                                 </div>
@@ -143,6 +145,26 @@
 
                             </div>
 
+                                @if($concurso->permitir_recursos_jurados && $participante->recursos->count())
+    <div class="mt-4  p-4">
+        <p class="font-semibold text-blue-700 mb-2 flex items-center gap-2">
+            <x-heroicon-o-link class="w-5 h-5" />
+            Recursos del participante
+        </p>
+
+        <div class="space-y-2 gap-2">
+            @foreach($participante->recursos as $recurso)
+                <a href="{{ $recurso->url }}"
+                   target="_blank"
+                   class="inline-flex p-4 items-center gap-2 text-blue-700 hover:text-blue-900 underline">
+                    <x-heroicon-o-arrow-top-right-on-square class="w-4 h-4" />
+                    {{ $recurso->titulo ?: $recurso->url }}
+                </a>
+            @endforeach
+        </div>
+    </div>
+@endif
+
                             @if($participante->descripcion)
                                 <p class="text-sm text-gray-600 mt-4">
                                     {{ $participante->descripcion }}
@@ -150,6 +172,8 @@
                             @endif
 
                         </div>
+
+                        
 
                         @foreach($concursoCriterios as $grupo)
 
