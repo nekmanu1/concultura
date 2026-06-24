@@ -28,61 +28,61 @@
             </div>
         @endif
 
-        <div class="bg-gradient-to-r from-blue-700 to-blue-500 text-white rounded-2xl shadow-lg p-6 mb-6">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div class="bg-gradient-to-r from-blue-700 to-blue-500 text-white rounded-2xl shadow-lg p-5 md:p-6 mb-6">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
 
-                <div class="flex items-center gap-4">
-                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
-                        <x-heroicon-o-trophy class="w-8 h-8 text-white" />
-                    </div>
+        <div class="flex items-center gap-4">
+            <div class="w-14 h-14 md:w-16 md:h-16 bg-white/20 rounded-full flex items-center justify-center">
+                <x-heroicon-o-trophy class="w-7 h-7 md:w-8 md:h-8 text-white" />
+            </div>
 
-                    <div>
-                        <h1 class="text-2xl font-bold">
-                            {{ $concurso->nombre }}
-                        </h1>
+            <div>
+                <h1 class="text-xl md:text-2xl font-bold">
+                    {{ $concurso->nombre }}
+                </h1>
 
-                        <p class="text-blue-100">
-                            {{ $concurso->categoria->nombre }}
-                        </p>
-                    </div>
-                </div>
-<!-- Select de participantes -->
-<form method="GET"
-      action="{{ route('jurado.concursos.calificar', $concurso->id) }}"
-      class="flex items-center gap-3">
-
-    <label for="participante"
-           class="text-sm font-medium text-blue-100 whitespace-nowrap">
-        Participante:
-    </label>
-
-    <select id="participante"
-            name="search"
-            onchange="this.form.submit()"
-            class="w-80 bg-white border-0 rounded-xl shadow-md
-                   text-gray-700 focus:ring-2 focus:ring-white">
-
-        <option value="">Seleccionar participante</option>
-
-        @foreach($participantesSelect as $p)
-            <option value="{{ $p->cedula }}"
-                {{ request('search') == $p->cedula ? 'selected' : '' }}>
-                {{ $p->nombre }} ({{ $p->cedula }})
-            </option>
-        @endforeach
-
-    </select>
-
-
-</form>
-
-              <span class="inline-flex items-center gap-2 bg-white text-blue-700 px-4 py-2 rounded-full text-sm font-semibold">
-    <x-heroicon-o-user-group class="w-5 h-5" />
-    Participante {{ $participantes->firstItem() }} de {{ $participantes->total() }}
-</span>
-
+                <p class="text-blue-100">
+                    {{ $concurso->categoria->nombre }}
+                </p>
             </div>
         </div>
+
+        <form method="GET"
+              action="{{ route('jurado.concursos.calificar', $concurso->id) }}"
+              class="w-full lg:w-auto">
+
+            <label for="participante"
+                   class="block text-sm font-semibold text-blue-100 mb-2">
+                Participante:
+            </label>
+
+            <select id="participante"
+                    name="search"
+                    onchange="this.form.submit()"
+                    class="w-full lg:w-80 bg-white border-0 rounded-xl shadow-md
+                           text-gray-700 focus:ring-2 focus:ring-white">
+
+                <option value="">Seleccionar participante</option>
+
+                @foreach($participantesSelect as $p)
+                    <option value="{{ $p->cedula }}"
+                        {{ request('search') == $p->cedula ? 'selected' : '' }}>
+                        {{ $p->nombre }} ({{ $p->cedula }})
+                    </option>
+                @endforeach
+
+            </select>
+        </form>
+
+        <div class="w-full lg:w-auto flex justify-center lg:justify-end">
+            <span class="inline-flex items-center justify-center gap-2 bg-white text-blue-700 px-5 py-2 rounded-full text-sm font-semibold w-full sm:w-auto max-w-xs">
+                <x-heroicon-o-user-group class="w-5 h-5" />
+                Participante {{ $participantes->firstItem() }} de {{ $participantes->total() }}
+            </span>
+        </div>
+
+    </div>
+</div>
 
         <div class="mb-6 bg-blue-50 border border-blue-200 rounded-xl p-4">
             <div class="flex gap-3">
@@ -121,7 +121,7 @@
                 <div class="bg-white rounded-2xl shadow-lg mb-8 overflow-hidden">
 
                     <div class="bg-gray-50 border-b p-5">
-                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                       <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                             <div class="flex items-center gap-3">
                                 <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
                                     <x-heroicon-o-user class="w-6 h-6 text-green-600" />
@@ -181,57 +181,131 @@
                                 {{ $aspecto->nombre }}
                             </h4>
 
-                            <div class="overflow-x-auto">
-                                <table class="w-full">
-                                    <thead>
-                                        <tr class="bg-gray-50 border-b">
-                                            <th class="p-4 text-left font-semibold text-gray-700">Criterio</th>
-                                            <th class="p-4 text-left font-semibold text-gray-700">Máximo</th>
-                                            <th class="p-4 text-left font-semibold text-gray-700">Puntaje</th>
-                                            <th class="p-4 text-left font-semibold text-gray-700">Observación <span class="text-red-600">*</span></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($grupo as $item)
-                                            @php
-                                                $key = $participante->id . '-' . $item->criterio_id;
-                                                $evaluacion = $evaluaciones[$key] ?? null;
-                                            @endphp
-                                            <tr class="border-b hover:bg-gray-50">
-                                                <td class="p-4">
-                                                    <p class="font-semibold text-gray-800">{{ $item->criterio->nombre }}</p>
-                                                    @if($item->criterio->descripcion)
-                                                        <p class="text-sm text-gray-500 mt-1">{{ $item->criterio->descripcion }}</p>
-                                                    @endif
-                                                </td>
-                                                <td class="p-4">
-                                                    <span class="inline-flex items-center gap-1 bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm font-semibold">
-                                                        <x-heroicon-o-star class="w-4 h-4" />
-                                                        {{ number_format($item->criterio->puntaje_maximo, 2) }}
-                                                    </span>
-                                                </td>
-                                                <td class="p-4">
-                                                    <input type="number"
-                                                           step="0.01"
-                                                           min="0"
-                                                           max="{{ $item->criterio->puntaje_maximo }}"
-                                                           name="puntajes[{{ $participante->id }}][{{ $item->criterio_id }}]"
-                                                           value="{{ old('puntajes.' . $participante->id . '.' . $item->criterio_id, $evaluacion->puntaje ?? '') }}"
-                                                           class="w-32 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-blue-500"
-                                                           required>
-                                                </td>
-                                                <td class="p-4">
-                                                    <textarea name="observaciones[{{ $participante->id }}][{{ $item->criterio_id }}]"
-                                                              class="w-full border-gray-300 rounded-xl focus:border-blue-500 focus:ring-blue-500 text-black"
-                                                              rows="2"
-                                                              placeholder="Observación obligatoria"
-                                                              required>{{ old('observaciones.' . $participante->id . '.' . $item->criterio_id, $evaluacion->observacion ?? '') }}</textarea>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+                         {{-- DESKTOP --}}
+<div class="hidden md:block overflow-x-auto evaluacion-desktop">
+    <table class="w-full">
+        <thead>
+            <tr class="bg-gray-50 border-b">
+                <th class="p-4 text-left font-semibold text-gray-700">Criterio</th>
+                <th class="p-4 text-left font-semibold text-gray-700">Máximo</th>
+                <th class="p-4 text-left font-semibold text-gray-700">Puntaje</th>
+                <th class="p-4 text-left font-semibold text-gray-700">
+                    Observación <span class="text-red-600">*</span>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach($grupo as $item)
+                @php
+                    $key = $participante->id . '-' . $item->criterio_id;
+                    $evaluacion = $evaluaciones[$key] ?? null;
+                @endphp
+
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="p-4">
+                        <p class="font-semibold text-gray-800">
+                            {{ $item->criterio->nombre }}
+                        </p>
+
+                        @if($item->criterio->descripcion)
+                            <p class="text-sm text-gray-500 mt-1">
+                                {{ $item->criterio->descripcion }}
+                            </p>
+                        @endif
+                    </td>
+
+                    <td class="p-4">
+                        {{ number_format($item->criterio->puntaje_maximo,2) }}
+                    </td>
+
+                    <td class="p-4">
+                        <input type="number"
+                               step="0.01"
+                               min="0"
+                               max="{{ $item->criterio->puntaje_maximo }}"
+                               name="puntajes[{{ $participante->id }}][{{ $item->criterio_id }}]"
+                               value="{{ old('puntajes.' . $participante->id . '.' . $item->criterio_id, $evaluacion->puntaje ?? '') }}"
+                               class="w-32 border-gray-300 rounded-xl"
+                               required>
+                    </td>
+
+                    <td class="p-4">
+                        <textarea
+                            name="observaciones[{{ $participante->id }}][{{ $item->criterio_id }}]"
+                            rows="2"
+                            required
+                            class="w-full border-gray-300 rounded-xl">{{ old('observaciones.' . $participante->id . '.' . $item->criterio_id, $evaluacion->observacion ?? '') }}</textarea>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
+{{-- MOVIL --}}
+<div class="md:hidden space-y-4 evaluacion-mobile">
+
+    @foreach($grupo as $item)
+
+        @php
+            $key = $participante->id . '-' . $item->criterio_id;
+            $evaluacion = $evaluaciones[$key] ?? null;
+        @endphp
+
+        <div class="border rounded-2xl p-4 bg-gray-50">
+
+            <div class="mb-3">
+                <h5 class="font-bold text-gray-800">
+                    {{ $item->criterio->nombre }}
+                </h5>
+
+                @if($item->criterio->descripcion)
+                    <p class="text-sm text-gray-500 mt-1">
+                        {{ $item->criterio->descripcion }}
+                    </p>
+                @endif
+            </div>
+
+            <div class="mb-3">
+                <span class="inline-flex items-center gap-1 bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-semibold">
+                    Máximo:
+                    {{ number_format($item->criterio->puntaje_maximo,2) }}
+                </span>
+            </div>
+
+            <div class="mb-3">
+                <label class="block text-sm font-semibold mb-1">
+                    Puntaje
+                </label>
+
+                <input type="number"
+                       step="0.01"
+                       min="0"
+                       max="{{ $item->criterio->puntaje_maximo }}"
+                       name="puntajes[{{ $participante->id }}][{{ $item->criterio_id }}]"
+                       value="{{ old('puntajes.' . $participante->id . '.' . $item->criterio_id, $evaluacion->puntaje ?? '') }}"
+                       class="w-full border-gray-300 rounded-xl"
+                       required>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold mb-1">
+                    Observación <span class="text-red-600">*</span>
+                </label>
+
+                <textarea
+                    name="observaciones[{{ $participante->id }}][{{ $item->criterio_id }}]"
+                    rows="3"
+                    required
+                    class="w-full border-gray-300 rounded-xl">{{ old('observaciones.' . $participante->id . '.' . $item->criterio_id, $evaluacion->observacion ?? '') }}</textarea>
+            </div>
+
+        </div>
+
+    @endforeach
+
+</div>  
                         </div>
                     @endforeach
                 </div>
@@ -254,5 +328,26 @@
 
 
     </div>
+
+
+
+    <script>
+function controlarCamposResponsivos() {
+    const esMovil = window.innerWidth < 768;
+
+    document.querySelectorAll('.evaluacion-desktop input, .evaluacion-desktop textarea, .evaluacion-desktop select')
+        .forEach(campo => {
+            campo.disabled = esMovil;
+        });
+
+    document.querySelectorAll('.evaluacion-mobile input, .evaluacion-mobile textarea, .evaluacion-mobile select')
+        .forEach(campo => {
+            campo.disabled = !esMovil;
+        });
+}
+
+document.addEventListener('DOMContentLoaded', controlarCamposResponsivos);
+window.addEventListener('resize', controlarCamposResponsivos);
+</script>
 
 </x-app-layout>

@@ -88,9 +88,12 @@ class EvaluacionController extends Controller
         ->with('error', 'Este concurso ya fue cerrado.');
 }
         $request->validate([
-            'puntajes' => ['nullable', 'array'],
-            'observaciones' => ['nullable', 'array'],
-        ]);
+    'puntajes' => ['required', 'array'],
+    'puntajes.*.*' => ['required', 'numeric', 'min:0'],
+
+    'observaciones' => ['required', 'array'],
+    'observaciones.*.*' => ['required', 'string'],
+]);
 
         $aspectoIdsPermitidos = ConcursoJuradoAspecto::where('concurso_id', $concurso->id)
             ->where('user_id', auth()->id())
@@ -129,7 +132,9 @@ class EvaluacionController extends Controller
                     $puntaje = $puntajeMaximo;
                 }
 
-                $observacion = $request->observaciones[$participanteId][$criterioId] ?? null;
+                $observacion = trim(
+    $request->observaciones[$participanteId][$criterioId] ?? ''
+);
 
                 Evaluacion::updateOrCreate(
                     [
